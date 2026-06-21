@@ -1,0 +1,246 @@
+.profile-page {
+  padding: 48px 0 80px;
+  background: var(--off-white);
+  min-height: calc(100vh - 140px);
+}
+
+.profile-header {
+  margin-bottom: 48px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--white);
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+/* ✅ HOVER EFFECT - DARK GREEN */
+.user-info:hover {
+  background: #1F4B2E;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(31, 75, 46, 0.3);
+}
+
+.user-info:hover .user-name,
+.user-info:hover .user-email {
+  color: #fff;
+}
+
+.user-info:hover .user-avatar {
+  background: #fff;
+  color: #1F4B2E;
+}
+
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--primary-green);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.user-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-green);
+  margin-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+.user-email {
+  color: var(--text-gray);
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.stat-box {
+  text-align: center;
+  padding: 32px 24px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* ✅ STAT BOX HOVER - DARK GREEN */
+.stat-box:hover {
+  background: #1F4B2E;
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(31, 75, 46, 0.3);
+}
+
+.stat-box:hover .stat-icon,
+.stat-box:hover .stat-value,
+.stat-box:hover .stat-name {
+  color: #fff;
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  transition: color 0.3s ease;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-green);
+  margin-bottom: 8px;
+  font-family: 'Manrope', sans-serif;
+  transition: color 0.3s ease;
+}
+
+.stat-name {
+  color: var(--text-gray);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+/* ✅ PICKUP HISTORY - NO HOVER EFFECT */
+.pickup-history {
+  padding: 40px;
+  margin-bottom: 32px;
+}
+
+.section-heading {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--primary-green);
+  margin-bottom: 24px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 64px 32px;
+}
+
+.empty-state p {
+  color: var(--text-gray);
+  font-size: 1.125rem;
+  margin-bottom: 24px;
+}
+
+.history-table-container {
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.history-table th {
+  text-align: left;
+  padding: 16px;
+  background: var(--off-white);
+  color: var(--text-dark);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-light);
+}
+
+.history-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-gray);
+}
+
+.history-table tbody tr:hover {
+  background: var(--off-white);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-badge.completed {
+  background: var(--accent-green);
+  color: var(--primary-green);
+}
+
+.status-badge.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* ✅ IMPACT MESSAGE - NO HOVER EFFECT */
+.impact-message {
+  padding: 40px;
+  background: linear-gradient(135deg, var(--accent-green) 0%, var(--light-green) 100%);
+  border: none;
+}
+
+.impact-message h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-green);
+  margin-bottom: 16px;
+}
+
+.impact-message p {
+  color: var(--text-dark);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.thank-you {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--primary-green);
+}
+
+@media (max-width: 768px) {
+  .user-info {
+    padding: 24px;
+  }
+
+  .user-avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+  }
+
+  .user-name {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .pickup-history {
+    padding: 24px;
+  }
+
+  .history-table th,
+  .history-table td {
+    padding: 12px 8px;
+    font-size: 0.875rem;
+  }
+
+  .impact-message {
+    padding: 32px 24px;
+  }
+}

@@ -1,0 +1,146 @@
+import React, { useState, useEffect } from 'react'
+import { getCurrentUser } from '../utils/auth'
+import './Profile.css'
+
+const Profile = () => {
+  const user = getCurrentUser()
+  const [stats, setStats] = useState({
+    totalPlasticRecycled: 0,
+    totalPickups: 0,
+    carbonFootprintReduced: 0,
+    totalEarnings: 0
+  })
+
+  const [pickupHistory] = useState([
+    {
+      id: 1,
+      date: '2024-01-15',
+      weight: 5.5,
+      earnings: 82.50,
+      status: 'Completed'
+    },
+    {
+      id: 2,
+      date: '2024-01-08',
+      weight: 3.2,
+      earnings: 48.00,
+      status: 'Completed'
+    },
+    {
+      id: 3,
+      date: '2024-01-01',
+      weight: 7.8,
+      earnings: 117.00,
+      status: 'Completed'
+    }
+  ])
+
+  useEffect(() => {
+    const totalWeight = pickupHistory.reduce((sum, pickup) => sum + pickup.weight, 0)
+    const totalEarn = pickupHistory.reduce((sum, pickup) => sum + pickup.earnings, 0)
+    const carbonReduced = totalWeight * 2.5
+
+    setStats({
+      totalPlasticRecycled: totalWeight,
+      totalPickups: pickupHistory.length,
+      carbonFootprintReduced: carbonReduced,
+      totalEarnings: totalEarn
+    })
+  }, [pickupHistory])
+
+  return (
+    <div className="profile-page" data-testid="profile-page">
+      <div className="container">
+        <div className="profile-header">
+          <div className="user-info">
+            <div className="user-avatar" data-testid="user-avatar">
+              {user?.name?.charAt(0).toUpperCase() || 'U'}
+            </div>
+            <div>
+              <h1 className="user-name">{user?.name || 'User'}</h1>
+              <p className="user-email">{user?.email || 'user@example.com'}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="dashboard-stats">
+          <div className="stat-box card" data-testid="stat-plastic-recycled">
+            <div className="stat-icon">♻️</div>
+            <div className="stat-value">{stats.totalPlasticRecycled.toFixed(1)} kg</div>
+            <div className="stat-name">Plastic Recycled</div>
+          </div>
+
+          <div className="stat-box card" data-testid="stat-pickups">
+            <div className="stat-icon">📦</div>
+            <div className="stat-value">{stats.totalPickups}</div>
+            <div className="stat-name">Total Pickups</div>
+          </div>
+
+          <div className="stat-box card" data-testid="stat-carbon">
+            <div className="stat-icon">🌱</div>
+            <div className="stat-value">{stats.carbonFootprintReduced.toFixed(1)} kg</div>
+            <div className="stat-name">CO₂ Reduced</div>
+          </div>
+
+          <div className="stat-box card" data-testid="stat-earnings">
+            <div className="stat-icon">💰</div>
+            <div className="stat-value">₹{stats.totalEarnings.toFixed(2)}</div>
+            <div className="stat-name">Total Earnings</div>
+          </div>
+        </div>
+
+        <div className="pickup-history card">
+          <h2 className="section-heading">Pickup History</h2>
+          
+          {pickupHistory.length === 0 ? (
+            <div className="empty-state" data-testid="empty-history">
+              <p>No pickups scheduled yet</p>
+              <a href="/schedule-pickup" className="btn btn-primary">
+                Schedule Your First Pickup
+              </a>
+            </div>
+          ) : (
+            <div className="history-table-container">
+              <table className="history-table" data-testid="history-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Weight (kg)</th>
+                    <th>Earnings</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pickupHistory.map((pickup) => (
+                    <tr key={pickup.id} data-testid={`history-row-${pickup.id}`}>
+                      <td>{pickup.date}</td>
+                      <td>{pickup.weight} kg</td>
+                      <td>₹{pickup.earnings.toFixed(2)}</td>
+                      <td>
+                        <span className={`status-badge ${pickup.status.toLowerCase()}`}>
+                          {pickup.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        <div className="impact-message card">
+          <h3>Your Environmental Impact</h3>
+          <p>
+            By recycling {stats.totalPlasticRecycled.toFixed(1)} kg of plastic, you've helped prevent 
+            it from reaching landfills and oceans. You've also reduced carbon emissions by approximately{' '}
+            {stats.carbonFootprintReduced.toFixed(1)} kg CO₂ equivalent.
+          </p>
+          <p className="thank-you">Thank you for making a difference! 🌍</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Profile

@@ -1,0 +1,268 @@
+/* ================= HERO ================= */
+
+.hero-section {
+  padding: 0;
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+}
+
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Background Image */
+.carousel-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Overlay */
+.carousel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.7)
+  );
+  z-index: 1;
+}
+
+/* Text Content */
+.slide-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.slide-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+.slide-subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  opacity: 0.95;
+}
+
+.slide-description {
+  font-size: 1.1rem;
+  max-width: 700px;
+  opacity: 0.9;
+}
+
+/* Buttons */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.9);
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.carousel-btn.prev { left: 20px; }
+.carousel-btn.next { right: 20px; }
+
+/* Indicators */
+.carousel-indicators {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 3;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  border: none;
+}
+
+.indicator.active {
+  width: 32px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+/* ================= FEATURES ================= */
+
+.features-section {
+  background: var(--white);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 32px 24px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: all 0.4s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+/* ✅ HOVER EFFECT - GREEN COLOR */
+.feature-card:hover {
+  background: #033423 !important; /* Green background */
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.35);
+  border-color: #059669;
+}
+
+.feature-card:hover .feature-icon,
+.feature-card:hover .feature-title,
+.feature-card:hover .feature-description {
+  color: #fff !important;
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  transition: color 0.3s ease;
+}
+
+.feature-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--primary-green);
+  transition: color 0.3s ease;
+}
+
+.feature-description {
+  color: var(--text-gray);
+  transition: color 0.3s ease;
+}
+
+/* ================= BLOG ================= */
+
+.awareness-section {
+  background: var(--off-white);
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+}
+
+.blog-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+}
+
+.blog-image {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+
+.blog-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.blog-content {
+  padding: 20px 24px 24px;
+  background: #fff;
+}
+
+.blog-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.blog-excerpt {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.blog-date {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* ================= CTA ================= */
+
+.cta-section {
+  padding: 80px 0;
+  background: var(--primary-green);
+  color: #fff;
+}
+
+.cta-content {
+  text-align: center;
+  max-width: 600px;
+  margin: auto;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+  .carousel {
+    height: 70vh;
+  }
+
+  .slide-description {
+    font-size: 1rem;
+  }
+
+  .features-grid,
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}
