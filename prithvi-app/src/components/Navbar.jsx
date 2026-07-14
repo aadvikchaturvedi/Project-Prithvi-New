@@ -1,20 +1,26 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { isAuthenticated, logout, getCurrentUser } from '../utils/auth'
+import { useAuth } from '../context/AuthContext'
 import logo from '../assets/logo.png'
 import './Navbar.css'
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const navigate = useNavigate()
-  const isAuth = isAuthenticated()
-  const user = getCurrentUser()
+  const { isAuthenticated, user, signOut } = useAuth()
 
-  const handleLogout = () => {
-    logout()
+  const handleLogout = async () => {
+    await signOut()
     navigate('/')
     setIsMenuOpen(false)
   }
+
+  // Derive display name from Supabase user metadata or email
+  const displayName =
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.email?.split('@')[0] ||
+    'User'
 
   return (
     <nav className="navbar">
@@ -41,7 +47,7 @@ const Navbar = () => {
 
           {/* RIGHT: AUTH */}
           <div className="navbar-auth">
-            {isAuth ? (
+            {isAuthenticated ? (
               <>
                 <button onClick={handleLogout} className="btn-logout">
                   Logout

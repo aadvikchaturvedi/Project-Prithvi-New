@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { getCurrentUser } from '../utils/auth'
+import { useAuth } from '../context/AuthContext'
 import './Profile.css'
 
 const Profile = () => {
-  const user = getCurrentUser()
+  const { user } = useAuth()
   const [stats, setStats] = useState({
     totalPlasticRecycled: 0,
     totalPickups: 0,
@@ -48,16 +48,22 @@ const Profile = () => {
     })
   }, [pickupHistory])
 
+  const displayName =
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.email?.split('@')[0] ||
+    'User'
+
   return (
     <div className="profile-page" data-testid="profile-page">
       <div className="container">
         <div className="profile-header">
           <div className="user-info">
             <div className="user-avatar" data-testid="user-avatar">
-              {user?.name?.charAt(0).toUpperCase() || 'U'}
+              {displayName.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h1 className="user-name">{user?.name || 'User'}</h1>
+              <h1 className="user-name">{displayName}</h1>
               <p className="user-email">{user?.email || 'user@example.com'}</p>
             </div>
           </div>

@@ -40,6 +40,74 @@
   font-size: 0.9375rem;
 }
 
+/* ─── Google OAuth Button ─── */
+
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--white);
+  color: var(--text-dark);
+  border: 1.5px solid var(--border-light);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-google:hover:not(:disabled) {
+  border-color: #4285F4;
+  background: #f8faff;
+  box-shadow: 0 2px 8px rgba(66, 133, 244, 0.15);
+  transform: translateY(-1px);
+}
+
+.btn-google:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-google:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.google-icon {
+  flex-shrink: 0;
+}
+
+/* ─── Divider ─── */
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  gap: 16px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-light);
+}
+
+.auth-divider span {
+  font-size: 0.875rem;
+  color: var(--text-gray);
+  font-weight: 500;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+/* ─── Form ─── */
+
 .auth-form {
   margin-bottom: 24px;
 }
@@ -49,6 +117,14 @@
   margin-top: 8px;
   font-size: 1rem;
 }
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── Switch Link ─── */
 
 .auth-switch {
   text-align: center;
@@ -67,6 +143,24 @@
   color: var(--secondary-green);
   text-decoration: underline;
 }
+
+/* ─── Callback Spinner ─── */
+
+.callback-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border-light);
+  border-top-color: var(--primary-green);
+  border-radius: 50%;
+  margin: 0 auto;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Responsive ─── */
 
 @media (max-width: 768px) {
   .auth-card {

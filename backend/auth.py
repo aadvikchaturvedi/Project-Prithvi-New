@@ -1,6 +1,7 @@
 from fastapi import Header, HTTPException
 from typing import Any, cast
 from db.supabase import client
+from supabase_auth.types import Provider
 
 
 def register_user(email: str, password: str, name: str, phone: str | None = None) -> Any:
@@ -52,20 +53,21 @@ def get_oauth_url(provider: str, redirect_to: str | None = None, scopes: str | N
             options["redirect_to"] = redirect_to
         if scopes:
             options["scopes"] = scopes
-        response = client.auth.sign_in_with_oauth({
+        response = client.auth.sign_in_with_oauth(cast(Any, {
             "provider": provider,
             "options": options,
-        })
+        }))
         return response.url
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 
-def exchange_code_for_session(auth_code: str) -> Any:
+def exchange_code_for_session(auth_code: str, code_verifier: str | None = None) -> Any:
     try:
-        response = client.auth.exchange_code_for_session({
-            "auth_code": auth_code,
-        })
+        params: dict[str, Any] = {"auth_code": auth_code}
+        if code_verifier:
+            params["code_verifier"] = code_verifier
+        response = client.auth.exchange_code_for_session(params)
         return response
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
