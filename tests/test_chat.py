@@ -2,6 +2,9 @@ import json
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
+import httpx
+import openai
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -239,7 +242,40 @@ class TestEngine:
             return iter(streams.pop(0))
 
         monkeypatch.setattr(engine, "_client", SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create))))
+        monkeypatch.setattr(engine, "_cooldown_until", {})
         return calls
+
+    def test_falls_back_when_model_out_of_quota(self, monkeypatch, db):
+        monkeypatch.setattr(engine, "MODELS", ["main", "backup"])
+        response = httpx.Response(429, request=httpx.Request("POST", "http://x"))
+        quota = openai.RateLimitError("GenerateRequestsPerDayPerProjectPerModel-FreeTier", response=response, body=None)
+        streams = [[chunk("Hi!", finish_reason="stop")], [chunk("Again.", finish_reason="stop")]]
+        models = []
+
+        def create(**kwargs):
+            models.append(kwargs["model"])
+            if kwargs["model"] == "main":
+                raise quota
+            return iter(streams.pop(0))
+
+        monkeypatch.setattr(engine, "_client", SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create))))
+        monkeypatch.setattr(engine, "_cooldown_until", {})
+        events = list(engine.run_turn([{"role": "user", "content": "x"}], None, None))
+        assert events[-1]["text"] == "Hi!" and events[-1]["meta"]["model"] == "backup"
+        list(engine.run_turn([{"role": "user", "content": "x"}], None, None))
+        assert models == ["main", "backup", "backup"]  # main is skipped while cooling down
+
+    def test_all_models_out_of_quota_says_sorry(self, monkeypatch, db):
+        monkeypatch.setattr(engine, "MODELS", ["main", "backup"])
+        response = httpx.Response(429, request=httpx.Request("POST", "http://x"))
+
+        def create(**kwargs):
+            raise openai.RateLimitError("PerDay", response=response, body=None)
+
+        monkeypatch.setattr(engine, "_client", SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create))))
+        monkeypatch.setattr(engine, "_cooldown_until", {})
+        events = list(engine.run_turn([{"role": "user", "content": "x"}], None, None))
+        assert events[-1]["text"] == engine.SORRY
 
     def test_tool_round_then_answer(self, monkeypatch, db):
         db.db["pickups"] = [pickup("a")]
